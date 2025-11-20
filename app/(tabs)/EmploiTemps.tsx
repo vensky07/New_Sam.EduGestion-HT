@@ -76,7 +76,7 @@ export default function EmploiTempsScreen() {
           const count = await saveNotifications(upcoming);
           if (count > 0) {
             await updateUnreadCount();
-            console.log(`🔔 ${count} nouvelle(s) notification(s) créée(s)`);
+            console.log(` ${count} nouvelle(s) notification(s) créée(s)`);
           }
         }
       } catch (error) {
@@ -212,7 +212,7 @@ export default function EmploiTempsScreen() {
             <Text style={styles.headerTitle}>Emploi du Temps</Text>
             <Text style={styles.headerSubtitle}>
               {unreadNotifications > 0 
-                ? `🔔 ${unreadNotifications} alerte(s) non lue(s)` 
+                ? ` ${unreadNotifications} alerte(s) non lue(s)` 
                 : "Organisez votre semaine"
               }
             </Text>

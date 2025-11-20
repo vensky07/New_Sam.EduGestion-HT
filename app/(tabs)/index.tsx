@@ -11,7 +11,7 @@ import { useUser } from "../../hooks/useUser";
 export default function HomeScreen() {
   const router = useRouter();
   
-  // Utilisation des hooks avec gestion d'erreur
+
   let notesData, timetableData, userData;
   
   try {

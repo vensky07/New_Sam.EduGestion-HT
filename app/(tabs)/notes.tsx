@@ -71,12 +71,12 @@ export default function NotesScreen() {
       if (raw) {
         const parsed = JSON.parse(raw);
 
-        // ✅ Compatibilité ancien format { categories: [...] }
+        //  Compatibilité ancien format { categories: [...] }
         const loadedCategories: Category[] = Array.isArray(parsed)
           ? parsed
           : parsed.categories ?? [];
 
-        console.log(`✅ ${loadedCategories.length} catégorie(s) chargée(s) avec succès`);
+        console.log(` ${loadedCategories.length} catégorie(s) chargée(s) avec succès`);
         setCategories(loadedCategories);
         setSelectedCategoryId(loadedCategories[0]?.id ?? null);
         
@@ -92,25 +92,25 @@ export default function NotesScreen() {
         setCategories(initial);
         setSelectedCategoryId(initial[0].id);
         await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(initial));
-        console.log("✅ Données initiales créées avec succès");
+        console.log(" Données initiales créées avec succès");
       }
     } catch (error) {
-      console.error("❌ Erreur chargement notes:", error);
+      console.error(" Erreur chargement notes:", error);
       Alert.alert("Erreur", "Impossible de charger les notes.");
     }
   }
 
   async function saveData(nextData: Category[]) {
     try {
-      console.log(`💾 Sauvegarde de ${nextData.length} catégorie(s)...`);
+      console.log(` Sauvegarde de ${nextData.length} catégorie(s)...`);
       const totalNotes = nextData.reduce((acc, cat) => acc + cat.notes.length, 0);
-      console.log(`📝 ${totalNotes} note(s) à sauvegarder`);
+      console.log(` ${totalNotes} note(s) à sauvegarder`);
       
       setCategories(nextData);
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(nextData));
-      console.log("✅ Données sauvegardées avec succès");
+      console.log(" Données sauvegardées avec succès");
     } catch (error) {
-      console.error("❌ Erreur sauvegarde notes:", error);
+      console.error(" Erreur sauvegarde notes:", error);
       Alert.alert("Erreur", "Impossible de sauvegarder les données.");
     }
   }
@@ -119,11 +119,11 @@ export default function NotesScreen() {
   async function addCategory() {
     const name = newCategoryName.trim();
     if (!name) {
-      console.log("⚠️ Tentative d'ajout de catégorie sans nom");
+      console.log(" Tentative d'ajout de catégorie sans nom");
       return Alert.alert("Nom requis", "Donnez un nom à la catégorie.");
     }
 
-    console.log(`➕ Ajout d'une nouvelle catégorie: "${name}"`);
+    console.log(` Ajout d'une nouvelle catégorie: "${name}"`);
     const randomColor = categoryColors[Math.floor(Math.random() * categoryColors.length)];
     const newCat: Category = {
       id: Date.now().toString(),
@@ -136,7 +136,7 @@ export default function NotesScreen() {
     await saveData(next);
     setNewCategoryName("");
     setSelectedCategoryId(newCat.id);
-    console.log(`✅ Catégorie "${name}" créée avec succès`);
+    console.log(` Catégorie "${name}" créée avec succès`);
     
     // Message de confirmation
     Alert.alert("Succès", `Catégorie "${name}" créée avec succès !`);
@@ -145,11 +145,11 @@ export default function NotesScreen() {
   function confirmDeleteCategory(categoryId: string) {
     const category = categories.find((c) => c.id === categoryId);
     if (!category) {
-      console.log("❌ Tentative de suppression d'une catégorie inexistante");
+      console.log(" Tentative de suppression d'une catégorie inexistante");
       return;
     }
 
-    console.log(`🗑️ Demande de confirmation pour supprimer la catégorie: "${category.name}"`);
+    console.log(` Demande de confirmation pour supprimer la catégorie: "${category.name}"`);
     Alert.alert(
       "Supprimer la catégorie",
       category.notes.length
@@ -170,10 +170,10 @@ export default function NotesScreen() {
     const category = categories.find((c) => c.id === categoryId);
     if (!category) return;
 
-    console.log(`🗑️ Suppression de la catégorie: "${category.name}"`);
+    console.log(` Suppression de la catégorie: "${category.name}"`);
     const next = categories.filter((c) => c.id !== categoryId);
     await saveData(next);
-    console.log(`✅ Catégorie "${category.name}" supprimée avec succès`);
+    console.log(` Catégorie "${category.name}" supprimée avec succès`);
     
     // Message de confirmation
     Alert.alert("Succès", `Catégorie "${category.name}" supprimée avec succès !`);
@@ -182,18 +182,18 @@ export default function NotesScreen() {
   // 🔹 Notes
   async function addNote() {
     if (!selectedCategoryId) {
-      console.log("⚠️ Tentative d'ajout de note sans catégorie sélectionnée");
+      console.log(" Tentative d'ajout de note sans catégorie sélectionnée");
       return Alert.alert("Erreur", "Aucune catégorie sélectionnée.");
     }
     
     const title = noteTitle.trim() || "Sans titre";
     const content = noteContent.trim();
     if (!content) {
-      console.log("⚠️ Tentative d'ajout de note vide");
+      console.log(" Tentative d'ajout de note vide");
       return Alert.alert("Erreur", "La note ne peut pas être vide.");
     }
 
-    console.log(`➕ Ajout d'une nouvelle note: "${title}"`);
+    console.log(` Ajout d'une nouvelle note: "${title}"`);
     const newNote: Note = {
       id: Date.now().toString(),
       title,
@@ -209,7 +209,7 @@ export default function NotesScreen() {
     await saveData(next);
     setNoteTitle("");
     setNoteContent("");
-    console.log(`✅ Note "${title}" ajoutée avec succès`);
+    console.log(` Note "${title}" ajoutée avec succès`);
     
     // Message de confirmation
     Alert.alert("Succès", "Note ajoutée avec succès !");
@@ -224,14 +224,14 @@ export default function NotesScreen() {
       return;
     }
 
-    console.log(`🗑️ Suppression de la note: "${note.title}"`);
+    console.log(` Suppression de la note: "${note.title}"`);
     const next = categories.map((cat) =>
       cat.id === categoryId
         ? { ...cat, notes: cat.notes.filter((n) => n.id !== noteId) }
         : cat
     );
     await saveData(next);
-    console.log(`✅ Note "${note.title}" supprimée avec succès`);
+    console.log(` Note "${note.title}" supprimée avec succès`);
     
     // Message de confirmation
     Alert.alert("Succès", "Note supprimée avec succès !");
@@ -239,14 +239,14 @@ export default function NotesScreen() {
 
   async function saveEditedNote() {
     if (!viewingNote || !selectedCategoryId) {
-      console.log("❌ Tentative de sauvegarde d'édition sans note ou catégorie");
+      console.log(" Tentative de sauvegarde d'édition sans note ou catégorie");
       return;
     }
 
     const updatedTitle = editingNoteTitle.trim() || "Sans titre";
     const updatedContent = editingNoteContent.trim();
 
-    console.log(`✏️ Sauvegarde des modifications de la note: "${viewingNote.title}" → "${updatedTitle}"`);
+    console.log(` Sauvegarde des modifications de la note: "${viewingNote.title}" → "${updatedTitle}"`);
     
     const next = categories.map((cat) =>
       cat.id === selectedCategoryId
@@ -263,7 +263,7 @@ export default function NotesScreen() {
 
     await saveData(next);
     closeViewNoteFullscreen();
-    console.log(`✅ Note "${updatedTitle}" modifiée avec succès`);
+    console.log(` Note "${updatedTitle}" modifiée avec succès`);
     
     // Message de confirmation
     Alert.alert("Succès", "Note modifiée avec succès !");
@@ -271,7 +271,7 @@ export default function NotesScreen() {
 
   // 🔹 Plein écran - Vue
   const openViewNoteFullscreen = (note: Note) => {
-    console.log(`📖 Ouverture de la note en mode plein écran: "${note.title}"`);
+    console.log(` Ouverture de la note en mode plein écran: "${note.title}"`);
     setViewingNote(note);
     setEditingNoteTitle(note.title);
     setEditingNoteContent(note.content);
@@ -279,36 +279,36 @@ export default function NotesScreen() {
   };
 
   const closeViewNoteFullscreen = () => {
-    console.log("🔙 Fermeture du mode édition plein écran");
+    console.log(" Fermeture du mode édition plein écran");
     setIsViewNoteFullscreen(false);
     setViewingNote(null);
   };
 
   // 🔹 Plein écran - Création
   const openCreateNoteFullscreen = () => {
-    console.log("🔄 Ouverture du mode création plein écran");
+    console.log(" Ouverture du mode création plein écran");
     setIsCreateNoteFullscreen(true);
   };
 
   const closeCreateNoteFullscreen = () => {
-    console.log("🔙 Fermeture du mode création plein écran");
+    console.log(" Fermeture du mode création plein écran");
     setIsCreateNoteFullscreen(false);
   };
 
   async function saveNoteFromFullscreen() {
     if (!selectedCategoryId) {
-      console.log("⚠️ Tentative de sauvegarde plein écran sans catégorie sélectionnée");
+      console.log(" Tentative de sauvegarde plein écran sans catégorie sélectionnée");
       return Alert.alert("Erreur", "Aucune catégorie sélectionnée.");
     }
     
     const title = noteTitle.trim() || "Sans titre";
     const content = noteContent.trim();
     if (!content) {
-      console.log("⚠️ Tentative de sauvegarde d'une note vide en mode plein écran");
+      console.log(" Tentative de sauvegarde d'une note vide en mode plein écran");
       return Alert.alert("Erreur", "La note ne peut pas être vide.");
     }
 
-    console.log(`💾 Sauvegarde d'une nouvelle note depuis le mode plein écran: "${title}"`);
+    console.log(` Sauvegarde d'une nouvelle note depuis le mode plein écran: "${title}"`);
     
     const newNote: Note = {
       id: Date.now().toString(),
@@ -326,7 +326,7 @@ export default function NotesScreen() {
     setNoteTitle("");
     setNoteContent("");
     closeCreateNoteFullscreen();
-    console.log(`✅ Note "${title}" créée en mode plein écran avec succès`);
+    console.log(` Note "${title}" créée en mode plein écran avec succès`);
     
     // Message de confirmation
     Alert.alert("Succès", "Note créée avec succès !");
@@ -335,7 +335,7 @@ export default function NotesScreen() {
   // 🔹 Changement de catégorie sélectionnée
   const handleCategorySelect = (categoryId: string) => {
     const category = categories.find((c) => c.id === categoryId);
-    console.log(`🎯 Catégorie sélectionnée: "${category?.name}" (${category?.notes.length} notes)`);
+    console.log(` Catégorie sélectionnée: "${category?.name}" (${category?.notes.length} notes)`);
     setSelectedCategoryId(categoryId);
   };
 
@@ -384,7 +384,7 @@ export default function NotesScreen() {
     );
   }
 
-  // 🧠 UI principale
+  //  UI principale
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -409,7 +409,7 @@ export default function NotesScreen() {
                 ]}
                 onPress={() => handleCategorySelect(cat.id)}
                 onLongPress={() => {
-                  console.log(`⏰ Appui long détecté sur la catégorie: "${cat.name}"`);
+                  console.log(` Appui long détecté sur la catégorie: "${cat.name}"`);
                   confirmDeleteCategory(cat.id);
                 }}
               >
@@ -481,7 +481,7 @@ export default function NotesScreen() {
           <TouchableOpacity
             style={[styles.primaryBtn, (!noteTitle && !noteContent) && styles.primaryBtnDisabled]}
             onPress={() => {
-              console.log("💾 Clic sur le bouton Ajouter une note");
+              console.log(" Clic sur le bouton Ajouter une note");
               addNote();
             }}
             disabled={!noteTitle.trim() && !noteContent.trim()}
@@ -526,7 +526,7 @@ export default function NotesScreen() {
             <TextInput
               value={editingNoteTitle}
               onChangeText={(text) => {
-                console.log(`✏️ Modification titre note: "${text}"`);
+                console.log(` Modification titre note: "${text}"`);
                 setEditingNoteTitle(text);
               }}
               style={styles.input}
@@ -535,7 +535,7 @@ export default function NotesScreen() {
             <TextInput
               value={editingNoteContent}
               onChangeText={(text) => {
-                console.log(`✏️ Modification contenu note: ${text.length} caractères`);
+                console.log(` Modification contenu note: ${text.length} caractères`);
                 setEditingNoteContent(text);
               }}
               style={[styles.fullscreenTextInput]}
@@ -558,7 +558,7 @@ export default function NotesScreen() {
             </TouchableOpacity>
             <Text style={styles.fullscreenTitle}>Nouvelle note</Text>
             <TouchableOpacity onPress={() => {
-              console.log("💾 Clic sur le bouton sauvegarder création");
+              console.log(" Clic sur le bouton sauvegarder création");
               saveNoteFromFullscreen();
             }}>
               <Ionicons name="save-outline" size={22} color="#4A6572" />

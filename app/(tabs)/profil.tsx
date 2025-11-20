@@ -153,7 +153,7 @@ export default function ProfilScreen() {
     
     updateUser(updatedUser);
     
-    console.log("✏️ Profil utilisateur mis à jour:", updatedUser);
+    console.log(" Profil utilisateur mis à jour:", updatedUser);
     Alert.alert(
       "Profil mis à jour",
       "Vos informations ont été sauvegardées avec succès",
@@ -172,7 +172,7 @@ export default function ProfilScreen() {
       return;
     }
     
-    console.log("🔐 Mot de passe modifié avec succès");
+    console.log(" Mot de passe modifié avec succès");
     Alert.alert(
       "Mot de passe modifié",
       "Votre mot de passe a été changé avec succès",
@@ -191,7 +191,7 @@ export default function ProfilScreen() {
     };
     saveSettings(newSettings);
     
-    console.log(`🎨 Thème changé: ${theme}`);
+    console.log(` Thème changé: ${theme}`);
     setIsThemeModalVisible(false);
     Alert.alert(
       "Thème modifié",
@@ -260,17 +260,17 @@ export default function ProfilScreen() {
 
   // Mettre à jour les switches quand les paramètres changent
   const handleNotificationsChange = (value) => {
-    console.log(`🔔 Notifications ${value ? 'activées' : 'désactivées'}`);
+    console.log(` Notifications ${value ? 'activées' : 'désactivées'}`);
     saveSettings({ ...settings, notifications: value });
   };
 
   const handleAutoSaveChange = (value) => {
-    console.log(`💾 Sauvegarde automatique ${value ? 'activée' : 'désactivée'}`);
+    console.log(` Sauvegarde automatique ${value ? 'activée' : 'désactivée'}`);
     saveSettings({ ...settings, autoSave: value });
   };
 
   const handleSyncDataChange = (value) => {
-    console.log(`☁️ Synchronisation ${value ? 'activée' : 'désactivée'}`);
+    console.log(` Synchronisation ${value ? 'activée' : 'désactivée'}`);
     saveSettings({ ...settings, syncData: value });
   };
 
@@ -457,7 +457,7 @@ export default function ProfilScreen() {
               </Text>
             </View>
             <Text style={[styles.streakSubtext, settings?.darkMode && styles.textSecondaryDark]}>
-              Continuez comme ça ! 🎉
+              Continuez comme ça ! 
             </Text>
           </View>
         </View>

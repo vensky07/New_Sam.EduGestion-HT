@@ -115,11 +115,11 @@ export default function NotificationsScreen() {
 
     const getNotificationIcon = (type) => {
         switch (type) {
-            case 'course_reminder': return '📚';
-            case 'payment_reminder': return '💰';
-            case 'payment_overdue': return '⚠️';
-            case 'payment_paid': return '✅';
-            default: return '🔔';
+            case 'course_reminder': return '';
+            case 'payment_reminder': return '';
+            case 'payment_overdue': return '';
+            case 'payment_paid': return '';
+            default: return '';
         }
     };
 
